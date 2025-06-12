@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server/index.ts",
-    "build": "npx vite build",
+    "build": "node organize-files.js && npx vite build",
     "start": "node server/index.js",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx db/seed.ts",
