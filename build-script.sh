@@ -63,7 +63,7 @@ ls -la db/
 
 # Install dependencies and build
 echo "Installing dependencies..."
-npm install
+npm install --legacy-peer-deps
 
 echo "Building application..."
 npm run build
