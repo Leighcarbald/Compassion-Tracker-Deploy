@@ -1,0 +1,31 @@
+{
+  "name": "Compassion Tracker",
+  "short_name": "Compassion Tracker",
+  "description": "Comprehensive family caregiving app for managing medications, appointments, and health tracking",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#673AB7",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/generated-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/generated-icon.png",
+      "sizes": "512x512", 
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/generated-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["health", "medical", "productivity"]
+}

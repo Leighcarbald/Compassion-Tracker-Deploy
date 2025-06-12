@@ -1,0 +1,74 @@
+// Emergency Info Password Reauthentication Route
+// Add this to your server/routes.ts file
+
+// Verify user password for emergency info access
+app.post(`${apiPrefix}/emergency-info/verify-password`, async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ 
+        verified: false,
+        message: 'Authentication required' 
+      });
+    }
+
+    const { password } = req.body;
+    
+    if (!password) {
+      return res.status(400).json({ 
+        verified: false,
+        message: 'Password is required' 
+      });
+    }
+
+    // Import comparePasswords from auth.ts
+    const { comparePasswords } = require('./auth');
+    
+    // Verify the password against the user's stored password
+    const isValid = await comparePasswords(password, req.user.password);
+    
+    if (isValid) {
+      // Store emergency verification in session (valid for 15 minutes)
+      req.session.emergencyVerified = Date.now();
+      
+      return res.json({ 
+        verified: true,
+        message: 'Password verified successfully'
+      });
+    } else {
+      return res.status(401).json({ 
+        verified: false, 
+        message: 'Invalid password' 
+      });
+    }
+  } catch (error) {
+    console.error('Error verifying password for emergency access:', error);
+    res.status(500).json({ 
+      verified: false,
+      message: 'Error verifying password' 
+    });
+  }
+});
+
+// Check if emergency verification is still valid
+app.get(`${apiPrefix}/emergency-info/verify-status`, async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ verified: false });
+    }
+
+    const emergencyVerified = req.session.emergencyVerified;
+    const now = Date.now();
+    const fifteenMinutes = 15 * 60 * 1000; // 15 minutes in milliseconds
+    
+    if (emergencyVerified && (now - emergencyVerified) < fifteenMinutes) {
+      return res.json({ verified: true });
+    } else {
+      // Clear expired verification
+      delete req.session.emergencyVerified;
+      return res.json({ verified: false });
+    }
+  } catch (error) {
+    console.error('Error checking emergency verification status:', error);
+    res.status(500).json({ verified: false });
+  }
+});
