@@ -94,7 +94,7 @@ const moves = [
 // UI components to move
 const uiComponents = [
   'accordion.tsx', 'alert-dialog.tsx', 'alert.tsx', 'aspect-ratio.tsx', 'avatar.tsx',
-  'badge.tsx', 'breadcrumb.tsx', 'button.tsx', 'card.tsx', 'carousel.tsx', 'chart.tsx',
+  'badge.tsx', 'breadcrumb.tsx', 'button.tsx', 'calendar.tsx', 'card.tsx', 'carousel.tsx', 'chart.tsx',
   'checkbox.tsx', 'collapsible.tsx', 'command.tsx', 'context-menu.tsx', 'dialog.tsx',
   'drawer.tsx', 'dropdown-menu.tsx', 'form.tsx', 'hover-card.tsx', 'input-otp.tsx',
   'input.tsx', 'label.tsx', 'menubar.tsx', 'navigation-menu.tsx', 'pagination.tsx',
