@@ -22,7 +22,10 @@ services:
       mv seed*.ts init-database.js db/ 2>/dev/null || true
       mv tables.sql scripts/ 2>/dev/null || true
       
-      # Install and build (without calling the recursive build script)
+      # Replace vite.config.ts with production version
+      mv vite.config.prod.ts vite.config.ts
+      
+      # Install and build
       npm install --legacy-peer-deps
       npx vite build
     startCommand: node server/index.js
