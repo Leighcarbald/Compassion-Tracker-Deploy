@@ -3,8 +3,29 @@ services:
     name: compassion-tracker
     env: node
     plan: free
-    buildCommand: npm install --legacy-peer-deps && npm run build
-    startCommand: npm start
+    buildCommand: |
+      # Create proper folder structure once
+      mkdir -p client/src/{components/ui,hooks,lib,pages}
+      mkdir -p server db shared scripts
+      
+      # Move files to correct locations
+      mv index.html client/ 2>/dev/null || true
+      mv manifest.json client/ 2>/dev/null || true
+      mv App.tsx main.tsx index.css client/src/ 2>/dev/null || true
+      mv auth-page.tsx BloodPressure.tsx BowelMovements.tsx Calendar.tsx DeviceConnections.tsx Doctors.tsx EmergencyInfo.tsx GlucoseInsulin.tsx Home.tsx Meals.tsx Medications.tsx Notes.tsx NotificationSettings.tsx Pharmacies.tsx reset-password.tsx Sleep.tsx not-found.tsx Medications.tsx.fixed client/src/pages/ 2>/dev/null || true
+      mv use-*.tsx use-*.ts client/src/hooks/ 2>/dev/null || true
+      mv queryClient.ts pinStorage.ts protected-route.tsx types.ts utils.ts client/src/lib/ 2>/dev/null || true
+      mv accordion.tsx alert*.tsx aspect-ratio.tsx avatar.tsx badge.tsx breadcrumb.tsx button.tsx card.tsx carousel.tsx chart.tsx checkbox.tsx collapsible.tsx command.tsx context-menu.tsx dialog.tsx drawer.tsx dropdown-menu.tsx form.tsx hover-card.tsx input*.tsx label.tsx menubar.tsx navigation-menu.tsx pagination.tsx popover.tsx progress.tsx radio-group.tsx resizable.tsx scroll-area.tsx select.tsx separator.tsx sheet.tsx sidebar.tsx skeleton.tsx slider.tsx switch.tsx table.tsx tabs.tsx textarea.tsx toast*.tsx toggle*.tsx tooltip.tsx character-count.tsx client/src/components/ui/ 2>/dev/null || true
+      mv *Modal.tsx Dashboard.tsx Header.tsx BottomNavigation.tsx* CareRecipientTabs.tsx PageHeader.tsx StatusCard.tsx AddToDesktopButton.tsx client/src/components/ 2>/dev/null || true
+      mv index.ts vite.ts routes.ts* auth.ts email-service.ts notification-service.ts storage.ts types.d.ts webauthn.ts medicationService.ts server/ 2>/dev/null || true
+      mv schema.ts shared/ 2>/dev/null || true
+      mv seed*.ts init-database.js db/ 2>/dev/null || true
+      mv tables.sql scripts/ 2>/dev/null || true
+      
+      # Install and build (without calling the recursive build script)
+      npm install --legacy-peer-deps
+      npx vite build
+    startCommand: node server/index.js
     healthCheckPath: /
     envVars:
       - key: NODE_ENV
